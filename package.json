@@ -1,0 +1,31 @@
+{
+  "name": "pg-stream",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/brianc/node-pg-stream.git"
+  },
+  "keywords": [
+    "postgres",
+    "pg",
+    "stream"
+  ],
+  "author": "Brian M. Carlson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brianc/node-pg-stream/issues"
+  },
+  "peerDependencies": {
+    "pg.js": "*"
+  },
+  "devDependencies": {
+    "mocha": "~1.12.0",
+    "okay": "~0.3.0",
+    "concat-stream": "~1.0.1"
+  }
+}
