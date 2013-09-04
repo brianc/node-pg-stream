@@ -11,10 +11,13 @@ var QueryStream = function(connection, text, values) {
 }
 util.inherits(QueryStream, Readable)
 
-//set number of rows to be read at a time
-QueryStream.prototype.rows = function(n) {
-  this.highWaterMark = n
+var query = function(text, values, cb) {
+  var connection = new pg.Connection()
+  return new QueryStream(connection, text, values)
 }
+
+module.exports = query
+query.Stream = QueryStream;
 
 QueryStream.prototype._attach = function(connection) {
   var self = this
@@ -53,9 +56,9 @@ QueryStream.prototype._attach = function(connection) {
     self._con.once('readyForQuery', function() {
       console.log('readyForQuery!')
       self.push(null)
+      self._con.end()
     })
   })
-
 }
 
 QueryStream.prototype._connect = function(n) {
@@ -94,6 +97,7 @@ QueryStream.prototype._getRows = function(n) {
 
 QueryStream.prototype._read = function(n) {
   if(!this._connect(n)) return;
+  //apparently n is always 1 in object mode
   this._getRows(n)
 }
 
@@ -101,10 +105,3 @@ QueryStream.prototype.end = function(cb) {
   this._con.end()
   this._con.stream.on('end', cb)
 }
-
-var query = function(text, values, cb) {
-  var connection = new pg.Connection()
-  return new QueryStream(connection, text, values)
-}
-
-module.exports = query
